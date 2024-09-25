@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <title>Cardapio</title>
+</head>
+<body>
+    <header>
+        <h1>The Coffe</h1>
+    </header>
+    <section class="hero">
+        <div id="titulo">
+        <h2 id="cardTitle">Cardapio</h2>
+        </div>
+        <div id="itens">
+            <ul>
+                <li>
+                    <h3 class="item">Snack 1</h3>
+                    <button class="myButton" onclick="troca(this )">4,99</button>
+                </li>
+                <li>
+                    <h3 class="item">Snack 2</h3>
+                    <button class="myButton" onclick="troca(this)">4,99</button>
+                </li>
+                <li>
+                    <h3 class="item">Snack 3</h3>
+                    <button class="myButton" onclick="troca(this)">4,99</button>
+                </li>
+                <li>
+                    <h3 class="item">Snack 4</h3>
+                    <button class="myButton" onclick="troca(this)">4,99</button>
+                </li>
+                <li>
+                    <h3 class="item">Snack 5</h3>
+                    <button class="myButton" onclick="troca(this)">4,99</button>
+                </li>
+                <li>
+                    <h3 class="item">Snack 6</h3>
+                    <button class="myButton" onclick="troca(this)">4,99</button>
+                </li>
+            </ul>
+        </div>
+        <div id="totalDiv">
+            <h2 id="totalText">Total:</h2>
+            <h2 id="preco">R$</h2>
+        </div>
+    </section>  
+    <script>
+        let valorTotal = 0;
+        function soma(value,qt)
+        {   
+            const preco = parseFloat(value.replace(',','.'));
+            valorTotal += preco * qt;
+            document.getElementById('reco').innerText = `R$ ${valorTotal.toFixed(2).replace(',','.')}`;
+        }
+        function troca(button)
+        {
+            const preco = button.innerText;
+            button.outerHTML = `
+            <div id="labelQ"> 
+                <button class="btnM" onclick="altera(this,-1)">-</button> 
+                <label class="quant">1</label> 
+                <button class="btnM" onclick="altera(this,1)" >+</button>
+            </div>`;
+
+            soma(preco, 1);
+        }
+
+        function altera(button, value){
+            //const quantAtual = document.getElementById('quant');
+            const quantAtual = button.parentElement.querySelector('.quant');
+            let currentValue = parseInt(quantAtual.innerText);
+            currentValue += value;
+
+            const precoUnitario = button.parentElement.querySelector('button').innerText;
+
+            if(currentValue <= 0){
+                button.parentElement.outerHTML = `<button class="myButton" onclick="troca(this)">${precoUnitario}</button>`;
+
+                soma(precoUnitario, -1);
+            }else{
+                quantAtual.innerText = currentValue;
+                soma(precoUnitario, value);
+            }
+            //quantAtual.innerText = currentValue + value;
+        }
+    </script>
+</body>
+</html>
